@@ -1,6 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Project Info
 
-## Getting Started
+### Todo list
+- Help function to map a shortened string to the full URL
+- Setup a DB to save the mapped items
+- Make frontend so you can submit a url and prefered shortened string
+- Connect 1 & 2
+- Deploy
+
+## Next Info
 
 First, run the development server:
 
