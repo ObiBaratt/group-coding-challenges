@@ -3,9 +3,13 @@
 ### Todo list
 - Help function to map a shortened string to the full URL
 - Setup a DB to save the mapped items
-- Make frontend so you can submit a url and prefered shortened string
+- Make frontend so you can submit a url and preferred shortened string
 - Connect 1 & 2
 - Deploy
+
+### Structure / Wireframing
+- We're going to have a single page / URL akin to "
+  - Potential Words: minimurl, mURLecule, minification protocol, token, baseurl, mURL, atomizer,
 
 ## Next Info
 
