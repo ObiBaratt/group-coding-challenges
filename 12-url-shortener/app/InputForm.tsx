@@ -17,11 +17,7 @@ function InputForm(props: any) {
           name="inputUrl"
           placeholder="https://www.supercalifragilisticexpialidocious.dev/"
         />
-        <button
-          type="submit"
-          onClick={props.onSubmitHandler}
-          className={styles.btnMinify}
-        >
+        <button onClick={props.onSubmitHandler} className={styles.btnMinify}>
           Minify!
         </button>
       </div>
