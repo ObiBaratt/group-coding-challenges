@@ -19,8 +19,13 @@ export const getRandom = () => {
   console.log(hash);
 };
 
+/* 
+- get value of url field through props?
+- use getRandom function to generate hash
+- 
+*/
 export const setUrl = () => {
-  let data = new Map();
+  
 };
 
 /*
