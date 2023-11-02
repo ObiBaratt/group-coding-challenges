@@ -9,7 +9,7 @@ function InputForm(props: any) {
 
   // TODO: We need to figure out the most appropriate method for styling (i.e. module pattern vs global)
   return (
-    <form className={styles.searchForm}>
+    <form className={styles.searchForm} onSubmit={props.onSubmitHandler}>
       <div className={styles.formControl}>
         <label>Enter URL To Be Shortened:</label>
         <input
@@ -17,7 +17,11 @@ function InputForm(props: any) {
           name="inputUrl"
           placeholder="https://www.supercalifragilisticexpialidocious.dev/"
         />
-        <button onClick={props.onSubmitHandler} className={styles.btnMinify}>
+        <button
+          type="submit"
+          onClick={props.onBtnClickHandler}
+          className={styles.btnMinify}
+        >
           Minify!
         </button>
       </div>
