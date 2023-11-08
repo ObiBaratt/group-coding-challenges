@@ -7,17 +7,11 @@ import InputForm from "./InputForm";
 import { getRandom, setUrl } from "./lib/urlMapper";
 
 export default function Home() {
-  const [url, setUrl] = useState("");
-
-  const onSubmit = (e: any) => {
-    e.preventDefault();
-  };
-
   return (
     <main className={styles.main}>
       <div className={styles.container}>
         <Header title="Unicorn URL Shortener" />
-        <InputForm onSubmitHandler={onSubmit} onBtnClickHandler={getRandom} />
+        <InputForm onBtnClickHandler={getRandom} />
       </div>
     </main>
   );

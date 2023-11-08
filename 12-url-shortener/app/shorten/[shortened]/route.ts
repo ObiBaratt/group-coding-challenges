@@ -9,13 +9,11 @@ export async function GET(
   req: NextApiRequest,
   context: { params: { shortened: string } }
 ) {
-  const { searchParams } = new URL(req.url || "");
-  const reqUrl = searchParams.get("url");
-  console.log({ reqUrl });
-
-  return Response.json({
-    shortened: context.params.shortened,
+  const res = await prisma.savedUrl.findMany({
+    where: { short: context.params.shortened },
   });
+
+  return NextResponse.json({ res }, { status: 200 });
 }
 
 export async function POST(
@@ -23,6 +21,7 @@ export async function POST(
   context: { params: { shortened: string } }
 ) {
   // check to prevent collisions
+  // post localhost:3000/shorten/[short string input]?url=https://google.com
   try {
     const { searchParams } = new URL(req.url || "");
     const reqUrl = searchParams.get("url");

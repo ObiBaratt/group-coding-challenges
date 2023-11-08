@@ -4,12 +4,17 @@ import { useState } from "react";
 // TODO: Need to add prop parameter for "onUpdate"
 function InputForm(props: any) {
   // TODO: Add handling of state
+  //const [url, setUrl] = useState("");
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
   // TODO: Add handling of Data Submission
 
   // TODO: We need to figure out the most appropriate method for styling (i.e. module pattern vs global)
   return (
-    <form className={styles.searchForm} onSubmit={props.onSubmitHandler}>
+    <form className={styles.searchForm} onSubmit={onSubmit}>
       <div className={styles.formControl}>
         <label>Enter URL To Be Shortened:</label>
         <input
