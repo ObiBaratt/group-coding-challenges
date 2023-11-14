@@ -1,6 +1,7 @@
 import prisma from "@/app/lib/prisma";
 import { sql } from "@vercel/postgres";
 import { NextApiRequest } from "next";
+import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 import { v4 as uuidv4 } from "uuid";
@@ -13,6 +14,9 @@ export async function GET(
     where: { short: context.params.shortened },
   });
 
+  if (res) {
+    return redirect(res[0].url);
+  }
   return NextResponse.json({ res }, { status: 200 });
 }
 

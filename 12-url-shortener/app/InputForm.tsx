@@ -1,13 +1,19 @@
-import styles from "./page.module.css";
 import { useState } from "react";
+import { getRandom, setUrl } from "./lib/urlMapper";
+
+import styles from "./page.module.css";
 
 // TODO: Need to add prop parameter for "onUpdate"
 function InputForm(props: any) {
   // TODO: Add handling of state
-  //const [url, setUrl] = useState("");
+  const [url, setUrl] = useState("");
+  const [shortened, setShortened] = useState("");
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log({ url }, { shortened });
+    const requestUrl = `/shorten/${shortened}?url=${url}`;
+    fetch(requestUrl, { method: "post" });
   };
 
   // TODO: Add handling of Data Submission
@@ -21,12 +27,17 @@ function InputForm(props: any) {
           type="url"
           name="inputUrl"
           placeholder="https://www.supercalifragilisticexpialidocious.dev/"
+          onChange={(e) => setUrl(e.target.value)}
         />
-        <button
-          type="submit"
-          onClick={props.onBtnClickHandler}
-          className={styles.btnMinify}
-        >
+
+        <label>Enter what you want short URL to look like:</label>
+        <input
+          type="text"
+          name="shortened"
+          onChange={(e) => setShortened(e.target.value)}
+        />
+
+        <button type="submit" className={styles.btnMinify}>
           Minify!
         </button>
       </div>
