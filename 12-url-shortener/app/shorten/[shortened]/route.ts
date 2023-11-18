@@ -1,13 +1,9 @@
 import prisma from "@/app/lib/prisma";
-import { sql } from "@vercel/postgres";
-import { NextApiRequest } from "next";
 import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
-
-import { v4 as uuidv4 } from "uuid";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: NextApiRequest,
+  req: Request | NextRequest,
   context: { params: { shortened: string } }
 ) {
   const res = await prisma.savedUrl.findMany({
@@ -21,27 +17,43 @@ export async function GET(
 }
 
 export async function POST(
-  req: NextApiRequest,
+  req: Request | NextRequest,
   context: { params: { shortened: string } }
 ) {
-  // check to prevent collisions
-  // post localhost:3000/shorten/[short string input]?url=https://google.com
   try {
+    if (!context.params.shortened) {
+      return NextResponse.json(
+        { Error: "No shortened string provided." },
+        { status: 400 }
+      );
+    }
+
     const { searchParams } = new URL(req.url || "");
     const reqUrl = searchParams.get("url");
-    if (reqUrl) {
-      const res = await prisma.savedUrl.create({
-        data: {
-          url: reqUrl,
-          short: context.params.shortened,
-        },
-      });
 
-      //   const res =
-      //     await sql`INSERT INTO UrlMap (id, url, shortened) VALUES (${id}, ${reqUrl}, ${context.params.shortened}) RETURNING *`;
-      return NextResponse.json({ res }, { status: 200 });
+    if (!reqUrl) {
+      return NextResponse.json({ Error: "No URL provided." }, { status: 400 });
+    }
+
+    const duplicate = await prisma.savedUrl.findFirst({
+      where: {
+        short: context.params.shortened,
+      },
+    });
+
+    if (!duplicate) {
+      if (reqUrl) {
+        const res = await prisma.savedUrl.create({
+          data: {
+            url: reqUrl,
+            short: context.params.shortened,
+          },
+        });
+
+        return NextResponse.json({ res }, { status: 200 });
+      }
     } else {
-      return new Error("No url provided");
+      return NextResponse.json({ Error: "Duplicate shortened string." }, { status: 400 });
     }
   } catch (e) {
     console.error("Error:", e);
