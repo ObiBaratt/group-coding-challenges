@@ -6,14 +6,24 @@ export async function GET(
   req: Request | NextRequest,
   context: { params: { shortened: string } }
 ) {
-  const res = await prisma.savedUrl.findMany({
-    where: { short: context.params.shortened },
-  });
+  try {
+    const res = await prisma.savedUrl.findFirst({
+      where: {
+        short: context.params.shortened,
+      },
+    });
 
-  if (res) {
-    return redirect(res[0].url);
+    if (res) {
+      return redirect(res.url);
+    }
+    return NextResponse.json({ res }, { status: 200 });
+  } catch (e) {
+    console.error("Error:", e);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
-  return NextResponse.json({ res }, { status: 200 });
 }
 
 export async function POST(
@@ -53,7 +63,10 @@ export async function POST(
         return NextResponse.json({ res }, { status: 200 });
       }
     } else {
-      return NextResponse.json({ Error: "Duplicate shortened string." }, { status: 400 });
+      return NextResponse.json(
+        { Error: "Duplicate shortened string." },
+        { status: 400 }
+      );
     }
   } catch (e) {
     console.error("Error:", e);
