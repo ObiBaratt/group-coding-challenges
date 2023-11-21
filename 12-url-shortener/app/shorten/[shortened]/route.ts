@@ -16,7 +16,7 @@ export async function GET(
     if (res) {
       return redirect(res.url);
     }
-    return NextResponse.json({ res }, { status: 200 });
+    return NextResponse.json({ found: false }, { status: 404 });
   } catch (e) {
     console.error("Error:", e);
     return NextResponse.json(

@@ -1,11 +1,11 @@
 ## Project Info
 
 ### Todo list
-- Help function to map a shortened string to the full URL
-- Setup a DB to save the mapped items
-- Make frontend so you can submit a url and preferred shortened string
+- ~~Help function to map a shortened string to the full URL~~
+- ~~Setup a DB to save the mapped items~~
+- Make frontend so you can submit a url and preferred shortened string using GET /check/[shortened] => boolean on the status of that string in the db
 - Connect 1 & 2
-- Deploy
+- ~~Deploy~~
 
 ### Structure / Wireframing
 - We're going to have a single page / URL akin to "

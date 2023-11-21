@@ -1,24 +1,43 @@
-import { useState } from "react";
-import { getRandom, setUrl } from "./lib/urlMapper";
-
+import { useCallback, useEffect, useState } from "react";
 import styles from "./page.module.css";
+import debounce from "lodash.debounce";
 
 // TODO: Need to add prop parameter for "onUpdate"
 function InputForm(props: any) {
   // TODO: Add handling of state
   const [url, setUrl] = useState("");
   const [shortened, setShortened] = useState("");
+  const [valid, setValid] = useState(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ url }, { shortened });
-    const requestUrl = `/shorten/${shortened}?url=${url}`;
-    fetch(requestUrl, { method: "post" });
+    if (valid) {
+      console.log({ url }, { shortened });
+      const requestUrl = `/shorten/${shortened}?url=${url}`;
+      fetch(requestUrl, { method: "post" });
+    } else {
+      alert("Shortened URL is not valid. Please try again.");
+    }
   };
 
-  // TODO: Add handling of Data Submission
+  const checkShortStringValiditiy = useCallback(
+    debounce(async (input: string) => {
+      const response = await fetch(`/check/${input}`, { method: "get" });
+      const isValid = await response.json();
 
-  // TODO: We need to figure out the most appropriate method for styling (i.e. module pattern vs global)
+      return isValid.found;
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    if (shortened.length > 0) {
+      checkShortStringValiditiy(shortened)?.then((isValid) => {
+        setValid(isValid);
+      });
+    }
+  }, [shortened]);
+
   return (
     <form className={styles.searchForm} onSubmit={onSubmit}>
       <div className={styles.formControl}>
